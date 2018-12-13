@@ -30,3 +30,8 @@ Completed 500 Internal Server Error in 272ms (ActiveRecord: 2.9ms)
 Payjp::InvalidRequestError (The amount must be between 50 and 9,999,999 JPY.):
 
 # payjp
+
+## payjpを登録
+
+1. .env.org を .env にファイル名を変更する
+2. 変更したファイル(.env)のなかにある該当箇所に秘密鍵を入力して保存しておく

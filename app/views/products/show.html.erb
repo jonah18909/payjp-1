@@ -16,6 +16,21 @@
     data-key="pk_test_ec6e9870e838ed6237bf6620">
   </script>
 <% end %>
+<p>このカードで支払う</p>
+<div id=cardInfo>
+  <% if current_user.card? then %>
+    <% current_user.cards.each do |card| %>
+      <br/>
+      <button>
+        <p>brand: <%= card.brand %> 期限: <%= card.exp_month.to_s + "/" + card.exp_year.to_s %></p>
+        <p>カード番号: <%= "**** **** **** " + card.last4 %></p>
+      </button>
+    <% end %>
+  <% else %>
+    <p>カードを持ってません</p>
+  <% end %>
+</div>
+<%= render "/shared/user_info" %>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

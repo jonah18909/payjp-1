@@ -73,7 +73,7 @@ class ProductsController < ApplicationController
       card: params['payjp-token']
     )
     charge = charge_product(customer)
-    redirect_to @product, notice: 'ありがとうございました。'
+    redirect_to @product, notice: '支払い完了。カード情報も保存しました'
   end
 
   def onepay
