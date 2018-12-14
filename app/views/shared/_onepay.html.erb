@@ -1,0 +1,17 @@
+<div id=cardInfo>
+  <label>支払うカードを選択する</label>
+  <% if current_user.card? then %>
+    <% current_user.cards.each do |card| %>
+      <br/>
+      <%= form_tag(action: :onepay, method: :post) do %>
+        <%= text_field :pay, :card, value: card.id, type:"hidden" %>
+        <%= button_tag type: "submit" do %>
+          <p>brand: <%= card.brand %> 期限: <%= card.exp_month.to_s + "/" + card.exp_year.to_s %></p>
+          <p>カード番号: <%= "**** **** **** " + card.last4 %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>カードを持ってません</p>
+  <% end %>
+</div>
