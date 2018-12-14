@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   root 'products#index'
   resources :products do
     post :pay, on: :member
+    post :onepay, on: :member
   end
 end
