@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy, :pay, :onepay]
+  before_action :set_customer, only: [:pay, :onepay]
 
   # GET /products
   # GET /products.json
@@ -64,22 +65,23 @@ class ProductsController < ApplicationController
   # card が登録されていないuser
   def pay
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
-    # ユーザに紐づいた顧客を取得
-    customer = Payjp::Customer.retrieve(current_user.pay.customer)
     # カード情報を登録
-    payment = Pay.new(customer: customer.id, user_id: current_user.id)
-    customer = Payjp::Customer.retrieve(customer.id)
-    customer.cards.create(
+    @customer = Payjp::Customer.retrieve(@customer.id)
+    @customer.cards.create(
       card: params['payjp-token']
     )
-    charge = charge_product(customer)
+    # 支払い処理(支払い済になる)
+    charge = charge_product(@customer)
     redirect_to @product, notice: '支払い完了。カード情報も保存しました'
   end
 
+  # card を選択して購入
   def onepay
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
-    customer = Payjp::Customer.retrieve(current_user.pay.customer)
-    charge = charge_product(customer)
+    # user に紐づいた顧客情報を取得
+    @customer = Payjp::Customer.retrieve(current_user.pay.customer)
+    # 支払い処理(支払い済になる)
+    charge = charge_product(@customer)
     redirect_to @product, notice: '支払い完了'
   end
 
@@ -88,6 +90,10 @@ class ProductsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
+    end
+    # user に紐づいた顧客情報を取得
+    def set_customer
+      @customer = Payjp::Customer.retrieve(current_user.pay.customer)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
