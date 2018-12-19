@@ -4,6 +4,7 @@ test する時に使う予定です
 ### aboutPAYJP
 Completed 500 Internal Server Error in 272ms (ActiveRecord: 2.9ms)
 Payjp::InvalidRequestError (The amount must be between 50 and 9,999,999 JPY.):
+Payjp::AuthenticationError (No API key provided. Set your API key using "Payjp.api_key = <API-KEY>". You can generate API keys from the Payjp web interface. See https://pay.jp/api for details, or email support@pay.jp if you have any questions.):
 
 # payjp
 
